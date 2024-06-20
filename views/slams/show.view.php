@@ -91,9 +91,9 @@ require basePath('views/partials/header.php');
                 <?php foreach ($comments as $comment): ?>
                     <div class="card mb-3">
                         <div class="card-body">
-                            <?php if (isset($_SESSION['user']['user_id']) && $_SESSION['user']['user_id'] === $comment['user_id']) : ?>
+
                                 <div class="position-absolute top-0 end-0 mt-2 me-2">
-                                    <form action="slam/comment" method="POST">
+                                    <form action="slam/comment" method="POST" class="deleteCommentForm">
                                         <button type="button" class="btn btn-sm btn-primary me-2">
                                             <a class="nav-link"
                                                href="<?= removeDuplicateURI('comment', $comment['id']) ?>">Edit</a>
@@ -104,6 +104,7 @@ require basePath('views/partials/header.php');
                                         <button type="submit" class="btn btn-sm btn-danger me-2">Delete</button>
                                     </form>
                                 </div>
+                            <?php if (isset($_SESSION['user']['user_id']) && $_SESSION['user']['user_id'] === $comment['user_id']) : ?>
                             <?php endif; ?>
                             <h5 class="card-title"><?= htmlspecialchars($comment['username']) ?></h5>
                             <p class="card-text"><?= postFormat($comment['comment']) ?></p>
