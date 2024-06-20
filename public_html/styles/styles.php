@@ -1,7 +1,5 @@
 <script>
 
-    console.log('I LEARNED WAY TOO LATE ABOUT AJAX NOOOOOOOOOO');
-
     //save scrolling
     window.onbeforeunload = function () {
         let currentPath = getCurrentPath();
@@ -32,7 +30,6 @@
         localStorage.setItem('storedPath', currentPath);
 
         localStorage.setItem('previousReferrer', document.referrer);
-        console.log(localStorage.getItem('previousReferrer'))
     };
 
     function getCurrentPath() {

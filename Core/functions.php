@@ -15,7 +15,6 @@ use Core\Session;
 #[NoReturn] function abort($code): void
 {
     http_response_code($code);
-    require basePath("views/partials/$code.php");
     die();
 }
 
