@@ -5,7 +5,6 @@ use Core\Database;
 
 $db = App::resolve(Database::class);
 
-try {
     $userId = $_SESSION['user']['user_id'];
     $postId = $_POST['post_id'];
 
@@ -33,15 +32,8 @@ try {
     ])->get());
 
     echo json_encode([
-        'success' => true,
         'user_has_liked' => $userHasLiked,
         'num_likes' => $numLikes
     ]);
-} catch (Exception $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => $e->getMessage()
-    ]);
-}
 
 exit();
