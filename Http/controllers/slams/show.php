@@ -6,7 +6,7 @@ use Core\Session;
 
 $db = App::resolve(Database::class);
 
-$post = $db->query('SELECT posts.*, users.username, category.image_url, category.name, 
+$post = $db->query('SELECT posts.*, users.username, category.image_url, category.name,
                     COUNT(likes.post_id) AS num_likes,
                     (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id AND likes.user_id = :user_id) AS user_has_liked
                     FROM posts

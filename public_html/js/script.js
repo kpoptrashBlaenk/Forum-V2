@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    //LIKE & DISLIKE
     const likeButton = $('#likePostButton');
 
     $('#likePostForm').on('submit', function (event) {
@@ -21,18 +23,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    //DELETE COMMENT
     $(document).on('submit', '.deleteCommentForm', function (event) {
         event.preventDefault();
 
-        form = $(this);
+        const form = $(this);
 
         $.ajax({
             url: form.attr('action'),
             type: 'POST',
             data: form.serialize(),
             dataType: 'json',
-            success: function (data) {
-                console.log(data)
+            success: function () {
+                location.reload();
             },
             error: function (xhr, status, error, data) {
                 errorCode(xhr.status)

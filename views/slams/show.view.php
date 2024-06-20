@@ -84,12 +84,12 @@ require basePath('views/partials/header.php');
 
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
-            <h3>Comments: <?= count($comments) ?></h3>
+            <h3 id="commentsCount" >Comments: <?= count($comments) ?></h3>
             <?php if (count($comments) === 0) : ?>
                 <h1 class="my-5 text-secondary">Wow, so empty... :3</h1>
             <?php else : ?>
                 <?php foreach ($comments as $comment): ?>
-                    <div class="card mb-3">
+                    <div id="commentsContainer" class="card mb-3">
                         <div class="card-body">
 
                                 <div class="position-absolute top-0 end-0 mt-2 me-2">
