@@ -31,6 +31,4 @@ $user = App::resolve(Database::class)->query("select * from users where email = 
 
 $auth->login($user);
 
-redirectPreviousReferrer();
-
-exit();
+echo json_encode(['success' => true, 'message' => 'Comment stored successfully'], JSON_THROW_ON_ERROR);

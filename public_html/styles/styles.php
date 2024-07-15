@@ -28,7 +28,7 @@
         }
 
         localStorage.setItem('storedPath', currentPath);
-
+        localStorage.setItem('beforePreviousReferrer', localStorage.getItem('previousReferrer'));
         localStorage.setItem('previousReferrer', document.referrer);
     };
 

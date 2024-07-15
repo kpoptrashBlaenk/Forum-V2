@@ -18,7 +18,17 @@ use Core\Session;
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
         die();
     }
-    redirect($code);
+    switch ($code) {
+        case 1:
+            redirect('/session');
+            break;
+        case 2:
+            redirect('/');
+            break;
+        default:
+            redirect($code);
+    }
+
 
 }
 
