@@ -26,6 +26,9 @@ $router->post('/slam/like', 'slams/like/store.php')->only('auth');
 
 $router->get('/profile', 'profile/show.php');
 
+$router->get('/1', 'session/create.php')->only('guest');
+$router->get('/2', 'index.php');
 $router->get('/403', '../../views/partials/403.php');
 $router->get('/404', '../../views/partials/404.php');
 $router->get('/500', '../../views/partials/500.php');
+$router->get('/debug', 'debug.php');

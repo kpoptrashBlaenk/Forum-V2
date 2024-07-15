@@ -40,8 +40,8 @@ try {
 } catch (ValidationException $exception) {
     Session::flash('errors', $exception->errors);
     Session::flash('old', $exception->old);
-
-    redirect($router->previousUrl());
+    echo json_encode(['error' => true, 'success' => false, 'errors' =>$_SESSION['_flashed']], JSON_THROW_ON_ERROR);
+    exit();
 }
 
 Session::unflash();

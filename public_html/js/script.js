@@ -23,6 +23,67 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
+    //EDIT & STORE COMMENT
+    let edit = false;
+
+    $('.editCommentButton').on('click', function () {
+        let commentCardBody = $(this).closest('.card-body');
+        if (!edit) {
+            edit = true;
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: '_method',
+                value: 'PATCH'
+            }).appendTo('#commentArea');
+
+            $('<button>').attr({
+                id: 'cancelEditComment',
+                type: 'button',
+                class: 'btn btn-danger'
+            }).text('Cancel').appendTo('#commentArea');
+        }
+
+        $('#commentId').val(commentCardBody.find('.card-text').attr('id'));
+        $('#comment').val(commentCardBody.find('.card-text').text());
+    });
+
+    $('#commentArea').on('click', '#cancelEditComment', function () {
+        $('#commentArea').find('input[name="_method"]').remove();
+
+        $(this).remove();
+
+        $('#commentId').val('');
+        $('#comment').val('');
+
+        edit = false;
+    });
+
+    $(document).on('submit', '#commentArea', function (event) {
+        event.preventDefault();
+
+        const form = $(this);
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.errors) {
+                    errorText(data, '#error-box')
+                } else {
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error, data) {
+                errorCode(xhr.status)
+            }
+        });
+    });
+
+
     //DELETE COMMENT
     $(document).on('submit', '.deleteCommentForm', function (event) {
         event.preventDefault();
@@ -64,5 +125,16 @@ function errorCode(code) {
 
         default:
             window.location.href = '/500';
+    }
+}
+
+function errorText(data, box) {
+    for (let key in data.errors.errors) {
+        if (data.errors.errors.hasOwnProperty(key) && !$('#' + 'errorText' + key)[0]) {
+            return $('<p>').attr({
+                id: 'errorText' + key,
+                class: 'text-danger mt-2'
+            }).text(data.errors.errors[key]).appendTo(box);
+        }
     }
 }

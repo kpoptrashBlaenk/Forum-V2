@@ -15,7 +15,11 @@ use Core\Session;
 #[NoReturn] function abort($code): void
 {
     http_response_code($code);
-    die();
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        die();
+    }
+    redirect($code);
+
 }
 
 function authorize($condition, $status = Response::FORBIDDEN): void

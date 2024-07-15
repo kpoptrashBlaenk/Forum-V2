@@ -19,6 +19,4 @@ $db->query('update comments set comment = :comment where id = :id', [
     'comment' => $_POST['comment']
 ]);
 
-redirect("/slam?id={$_POST['post_id']}");
-
-exit();
+echo json_encode(['success' => true, 'message' => 'Comment patched successfully'], JSON_THROW_ON_ERROR);

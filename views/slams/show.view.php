@@ -67,17 +67,11 @@ require basePath('views/partials/header.php');
                 <div class="mb-3">
                     <label for="comment" class="form-label fw-bold">Write a comment:</label>
                     <textarea class="form-control" id="comment" name="comment"
-                              rows="3"><?= nl2br(htmlspecialchars($editComment['comment'] ?? '')) ?></textarea>
+                              rows="3"></textarea>
                 </div>
-                <?php require basePath('views/partials/errors.php') ?>
+                <div id="error-box"></div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <?php if (isset($_GET['comment'])) : ?>
-                    <input type="hidden" name="_method" value="PATCH">
-                    <input type="hidden" name="comment_id" value="<?= $editComment['id'] ?>">
-                    <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
-                    <button type="button" class="btn btn-danger"><a href="<?= removeParamURI('comment') ?>"> Cancel </a>
-                    </button>
-                <?php endif; ?>
+                <input id="commentId" type="hidden" name="comment_id" value="">
             </form>
         </div>
     </div>
@@ -94,20 +88,17 @@ require basePath('views/partials/header.php');
 
                                 <div class="position-absolute top-0 end-0 mt-2 me-2">
                                     <form action="slam/comment" method="POST" class="deleteCommentForm">
-                                        <button type="button" class="btn btn-sm btn-primary me-2">
-                                            <a class="nav-link"
-                                               href="<?= removeDuplicateURI('comment', $comment['id']) ?>">Edit</a>
-                                        </button>
                                         <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
                                         <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
                                         <input type="hidden" name="_method" value="DELETE">
+                                        <button type="button" class="btn btn-sm btn-primary me-2 editCommentButton">Edit</button>
                                         <button type="submit" class="btn btn-sm btn-danger me-2">Delete</button>
                                     </form>
                                 </div>
                             <?php if (isset($_SESSION['user']['user_id']) && $_SESSION['user']['user_id'] === $comment['user_id']) : ?>
                             <?php endif; ?>
                             <h5 class="card-title"><?= htmlspecialchars($comment['username']) ?></h5>
-                            <p class="card-text"><?= postFormat($comment['comment']) ?></p>
+                            <p id="<?= $comment['id'] ?>" class="card-text"><?= postFormat($comment['comment']) ?></p>
                         </div>
                     </div>
                 <?php endforeach;

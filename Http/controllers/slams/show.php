@@ -36,18 +36,18 @@ if (isset($_GET['comment'])) {
     $editComment = '';
 }
 
-if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    echo json_encode(array(
-        'post' => $post,
-        'comments' => $comments,
-        'editComment' => $editComment,
-        'errors' => Session::get('errors')
-    ), JSON_THROW_ON_ERROR);
-} else {
+//if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+//    echo json_encode(array(
+//        'post' => $post,
+//        'comments' => $comments,
+//        'editComment' => $editComment,
+//        'errors' => Session::get('errors')
+//    ), JSON_THROW_ON_ERROR);
+//} else {
     view('slams/show.view.php', [
         'post' => $post,
         'comments' => $comments,
         'editComment' => $editComment,
         'errors' => Session::get('errors')
     ]);
-}
+//}
