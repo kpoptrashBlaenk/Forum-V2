@@ -40,7 +40,11 @@ try {
 } catch (ValidationException $exception) {
     Session::flash('errors', $exception->errors);
     Session::flash('old', $exception->old);
-    echo json_encode(['error' => true, 'success' => false, 'errors' =>$_SESSION['_flashed']], JSON_THROW_ON_ERROR);
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        echo json_encode(['error' => true, 'success' => false, 'errors' => $_SESSION['_flashed']], JSON_THROW_ON_ERROR);
+    } else {
+        redirect($router->previousUrl());
+    }
     exit();
 }
 
