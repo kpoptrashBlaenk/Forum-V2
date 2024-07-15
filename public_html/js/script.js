@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     : `Like: ${data.num_likes}`);
                 likeButton.toggleClass('btn-danger btn-secondary');
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 errorCode(xhr.status)
             }
         });
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     location.reload();
                 }
             },
-            error: function (xhr, status, error, data) {
+            error: function (xhr) {
                 errorCode(xhr.status)
             }
         });
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function () {
                 location.reload();
             },
-            error: function (xhr, status, error, data) {
+            error: function (xhr) {
                 errorCode(xhr.status)
             }
         });
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     lastPage()
                 }
             },
-            error: function (xhr, status, error, data) {
+            error: function (xhr) {
                 errorCode(xhr.status)
             }
         })
@@ -150,11 +150,40 @@ document.addEventListener('DOMContentLoaded', function () {
                     lastPage()
                 }
             },
-            error: function (xhr, status, error, data) {
+            error: function (xhr) {
                 errorCode(xhr.status)
             }
         })
     })
+
+
+    //CREATE SLAM
+    $(document).on('submit', '#createSlam', function (event) {
+        event.preventDefault();
+
+        const form = $(this);
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.errors) {
+                    errorText(data, '#error-box');
+                } else {
+                    window.location.href = data.thisSlam
+                }
+            },
+            error: function (xhr) {
+                errorCode(xhr.status)
+            }
+        })
+    })
+
+
+    //SORT
+
 });
 
 function errorCode(code) {
