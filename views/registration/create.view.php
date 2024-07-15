@@ -10,38 +10,35 @@ require basePath('views/partials/header.php');
                 empire!</p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" action="/register" method="POST">
+            <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" action="/register" method="POST" id="registrationForm">
                 <div class="form-floating mb-3">
                     <input
                             name="username"
                             type="text"
-                            class="form-control <?= (isset($errors['username'])) ? 'is-invalid' : '' ?>"
+                            class="form-control"
                             id="username"
-                            placeholder="Username"
-                            value="<?= htmlspecialchars(old('username')) ?>">
+                            placeholder="Username">
                     <label for="username">Username</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input
                             name="email"
                             type="email"
-                            class="form-control <?= (isset($errors['email']) || isset($errors['email_password'])) ? 'is-invalid' : '' ?>"
+                            class="form-control"
                             id="email"
-                            placeholder="name@example.com"
-                            value="<?= htmlspecialchars(old('email')) ?>">
+                            placeholder="name@example.com">
                     <label for="email">Email address</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input
                             name="password"
                             type="password"
-                            class="form-control <?= (isset($errors['password']) || isset($errors['email_password'])) ? 'is-invalid' : '' ?>"
+                            class="form-control"
                             id="password"
-                            placeholder="Password"
-                            value="<?= htmlspecialchars(old('password')) ?>">
+                            placeholder="Password">
                     <label for="password">Password</label>
                 </div>
-                <?php require basePath('views/partials/errors.php') ?>
+                <div id="error-box"></div>
                 <div class="checkbox mb-3">
                     <label for="stayConnected">
                         <input

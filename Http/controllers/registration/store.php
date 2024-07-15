@@ -68,6 +68,4 @@ $user = $db->query("select * from users where email = :email", [
 
 $auth->login($user);
 
-redirectPreviousReferrer();
-
-exit();
+echo json_encode(['success' => true, 'message' => 'Comment stored successfully'], JSON_THROW_ON_ERROR);
