@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     //SORT
-    $('#sort_by').on('change', function() {
+    $('#sort_by').on('change', function () {
         $('#slamsForm').submit();
     });
 
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: form.serialize(),
             dataType: 'json',
             success: function (data) {
-                allSlams(data,'#allPosts')
+                allSlams(data, '#allPosts')
                 pageNav(data);
             },
             error: function (xhr) {
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: form.serialize(),
             dataType: 'json',
             success: function (data) {
-                allSlams(data,'#allPosts')
+                allSlams(data, '#allPosts')
                 pageNav(data);
             },
             error: function (xhr) {
@@ -319,7 +319,9 @@ function htmlspecialchars(str) {
         '"': '&quot;',
         "'": '&#039;'
     };
-    return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+    return str.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 function code(value) {
@@ -350,70 +352,76 @@ function postFormat(value) {
 function allSlams(data, appendTo) {
     const container = $(appendTo).empty();
 
-    data.posts.forEach(post => {
-        const a = $('<a>', {
-            href: '/slam?id=' + post.id,
-            class: 'list-group-item list-group-item-action d-flex gap-3 py-3'
-        }).appendTo(container);
+    if (data.posts.length > 0) {
+        data.posts.forEach(post => {
+            const a = $('<a>', {
+                href: '/slam?id=' + post.id,
+                class: 'list-group-item list-group-item-action d-flex gap-3 py-3'
+            }).appendTo(container);
 
-        $('<img>', {
-            src: '../resources/' + post.image_url,
-            alt: post.name,
-            width: 32,
-            height: 32,
-            class: 'rounded-circle flex-shrink-0'
-        }).appendTo(a);
+            $('<img>', {
+                src: '../resources/' + post.image_url,
+                alt: post.name,
+                width: 32,
+                height: 32,
+                class: 'rounded-circle flex-shrink-0'
+            }).appendTo(a);
 
-        const div1 = $('<div>', {
-            class: 'flex-grow-1 container'
-        }).appendTo(a);
+            const div1 = $('<div>', {
+                class: 'flex-grow-1 container'
+            }).appendTo(a);
 
-        // Title and content
-        $('<h6>', {
-            class: 'mb-0 overflow-break ellipsis-1',
-            text: htmlspecialchars(post.title)
-        }).appendTo(div1);
+            // Title and content
+            $('<h6>', {
+                class: 'mb-0 overflow-break ellipsis-1',
+                text: htmlspecialchars(post.title)
+            }).appendTo(div1);
 
-        $('<p>', {
-            class: 'mb-0 opacity-75 overflow-break ellipsis-3',
-            html: postFormat(post.content)
-        }).appendTo(div1);
+            $('<p>', {
+                class: 'mb-0 opacity-75 overflow-break ellipsis-3',
+                html: postFormat(post.content)
+            }).appendTo(div1);
 
-        // Stats container
-        const div2 = $('<div>', {
-            class: 'd-flex justify-content-start mt-2'
-        }).appendTo(div1);
+            // Stats container
+            const div2 = $('<div>', {
+                class: 'd-flex justify-content-start mt-2'
+            }).appendTo(div1);
 
-        $('<p>', {
-            class: 'mb-0 text-danger',
-            text: 'Likes: ' + post.num_likes
-        }).appendTo(div2);
+            $('<p>', {
+                class: 'mb-0 text-danger',
+                text: 'Likes: ' + post.num_likes
+            }).appendTo(div2);
 
-        $('<p>', {
-            class: 'mb-0 mx-3 text-tertiary',
-            text: 'Comments: ' + post.num_comments
-        }).appendTo(div2);
+            $('<p>', {
+                class: 'mb-0 mx-3 text-tertiary',
+                text: 'Comments: ' + post.num_comments
+            }).appendTo(div2);
 
-        const div3 = $('<div>', {
-            class: 'ms-auto text-end meta-container'
-        }).appendTo(a);
+            const div3 = $('<div>', {
+                class: 'ms-auto text-end meta-container'
+            }).appendTo(a);
 
-        $('<small>', {
-            class: 'opacity-50 text-nowrap',
-            text: post.date
-        }).appendTo(div3);
+            $('<small>', {
+                class: 'opacity-50 text-nowrap',
+                text: post.date
+            }).appendTo(div3);
 
-        $('<small>', {
-            class: 'd-block mb-0 opacity-75',
-            text: htmlspecialchars(post.name)
-        }).appendTo(div3);
-    });
+            $('<small>', {
+                class: 'd-block mb-0 opacity-75',
+                text: htmlspecialchars(post.name)
+            }).appendTo(div3);
+        });
+    } else {
+        $('<h1>', {
+            class: 'my-5 text-secondary text-center'
+        }).text('Wow, so empty... :3').appendTo(container);
+    }
 }
 
 function pageNav(data) {
     $('#pageNavForm').empty();
 
-    if(data.posts.length > 0) {
+    if (data.posts.length > 0) {
         let nav = $('<nav>').attr({
             class: 'd-flex justify-content-center',
             'aria-label': 'Standard pagination example'
@@ -439,7 +447,7 @@ function pageNav(data) {
             class: 'text-dark fs-5'
         }).text('«').appendTo(buttonBack)
 
-        for(let i = 0; i < Math.min(data.pages.last, 3); i++) {
+        for (let i = 0; i < Math.min(data.pages.last, 3); i++) {
             let liBetween = $('<li>').attr({
                 class: 'page-item'
             }).appendTo(ul)
@@ -451,7 +459,7 @@ function pageNav(data) {
             }).text(i + 1).appendTo(liBetween)
         }
 
-        if(data.pages.last > 3) {
+        if (data.pages.last > 3) {
             let liDots = $('<li>').attr({
                 class: 'page-item'
             }).appendTo(ul)

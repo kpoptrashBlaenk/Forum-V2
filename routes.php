@@ -24,7 +24,7 @@ $router->patch('/slam/comment', 'slams/comment/patch.php')->only('auth');
 $router->delete('/slam/comment', 'slams/comment/destroy.php')->only('auth');
 $router->post('/slam/like', 'slams/like/store.php')->only('auth');
 
-$router->get('/profile', 'profile/show.php');
+$router->get('/profile', 'slams/index.php');
 
 $router->get('/1', 'session/create.php')->only('guest');
 $router->get('/2', 'index.php');

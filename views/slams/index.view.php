@@ -20,9 +20,9 @@ require basePath('views/partials/header.php');
                     <label for="sort_by" class="col-form-label me-2">Sort By:</label>
                     <div class="col-3">
                         <select class="form-select" id="sort_by" name="sort_by">
-                            <option value="new" <?= $_SESSION['sort_by'] === 'new' ? 'selected' : '' ?>>New</option>
-                            <option value="hot" <?= $_SESSION['sort_by'] === 'hot' ? 'selected' : '' ?>>Hot</option>
-                            <option value="top" <?= $_SESSION['sort_by'] === 'top' ? 'selected' : '' ?>>Top</option>
+                            <option value="new" <?= isset($_SESSION['sort_by']) && $_SESSION['sort_by'] === 'new' ? 'selected' : '' ?>>New</option>
+                            <option value="hot" <?= isset($_SESSION['sort_by']) && $_SESSION['sort_by'] === 'hot' ? 'selected' : '' ?>>Hot</option>
+                            <option value="top" <?= isset($_SESSION['sort_by']) && $_SESSION['sort_by'] === 'top' ? 'selected' : '' ?>>Top</option>
                         </select>
                     </div>
                 </div>

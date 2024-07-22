@@ -12,25 +12,30 @@ require basePath('views/partials/header.php');
 
     <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
         <div class="list-group w-100">
-            <form id="slamsForm" action="/profile" method="GET">
+            <form id="slamsForm" method="GET">
                 <div class="my-3 d-flex justify-content-start">
                     <input type="hidden" name="user" value="<?= $_GET['user'] ?>">
                     <label for="sort_by" class="col-form-label">Sort By:</label>
                     <div class="col-3 mx-3">
                         <select class="form-select" id="sort_by" name="sort_by">
-                            <option value="new" <?= ($sort_by === 'new') ? 'selected' : '' ?>>New</option>
-                            <option value="top" <?= ($sort_by === 'top') ? 'selected' : '' ?>>Top</option>
+                            <option value="new" <?= isset($_SESSION['sort_by']) && $_SESSION['sort_by'] === 'new' ? 'selected' : '' ?>>New</option>
+                            <option value="top" <?= isset($_SESSION['sort_by']) && $_SESSION['sort_by'] === 'top' ? 'selected' : '' ?>>Top</option>
                         </select>
                     </div>
                 </div>
             </form>
 
-            <?php if (count($posts) === 0) : ?>
-                <h1 class="my-5 text-secondary text-center">Wow, so empty... :3</h1>
-            <?php else : ?>
-                <h3 class="mt-5 mb-3">Posts: <?= count($posts) ?></h3>
-                <?php require basePath('views/partials/slams/index.view.php'); ?>
+            <?php if (count($posts) !== 0) : ?>
+                <h3 class="mt-5 mb-3">Posts: <?= count($allUsersPosts) ?></h3>
             <?php endif; ?>
+
+            <div id="allPosts">
+                <?php if (count($posts) === 0) : ?>
+                    <h1 class="my-5 text-secondary text-center">Wow, so empty... :3</h1>
+                <?php else : ?>
+                    <?php require basePath('views/partials/slams/index.view.php'); ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

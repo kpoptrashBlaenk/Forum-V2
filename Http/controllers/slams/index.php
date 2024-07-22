@@ -18,6 +18,19 @@ $params = [];
 $where = [];
 $orderBy = [];
 
+$allUsersPosts = $query;
+
+if (isset($_GET['user'])) {
+    $where[] = 'users.username = :username';
+    $params['username'] = $_GET['user'];
+
+    if (!empty($where)) {
+        $allUsersPosts .= ' where ' . implode(' and ', $where);
+    }
+
+    $allUsersPosts = $db->query($allUsersPosts, $params)->get();
+}
+
 if (isset($_GET['category'])) {
     $where[] = 'category.id = :category';
     $params['category'] = $_GET['category'];
@@ -74,11 +87,12 @@ $pages = [
 ];
 
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    echo json_encode(['error' => false, 'success' => true, 'posts' => $posts, 'pages' => $pages, 'query' => $query], JSON_THROW_ON_ERROR);
+    echo json_encode(['error' => false, 'success' => true, 'posts' => $posts, 'pages' => $pages, 'query' => $query, 'allUsersPosts' => $allUsersPosts], JSON_THROW_ON_ERROR);
 } else {
-    view('slams/index.view.php', [
+    view(isset($_GET['user']) ? 'profile/show.view.php' : 'slams/index.view.php', [
         'posts' => $posts,
         'sort_by' => $sort_by,
-        'pages' => $pages
+        'pages' => $pages,
+        'allUsersPosts' => $allUsersPosts
     ]);
 }
