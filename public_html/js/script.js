@@ -199,6 +199,31 @@ document.addEventListener('DOMContentLoaded', function () {
             dataType: 'json',
             success: function (data) {
                 allSlams(data,'#allPosts')
+                pageNav(data);
+            },
+            error: function (xhr) {
+                errorCode(xhr.status)
+            }
+        })
+    })
+
+
+    //PAGE NAVIGATION
+    $(document).on('submit', '#pageNavForm', function (event) {
+        event.preventDefault();
+
+        const form = $(this);
+
+        const clickedButtonValue = form.find('button[type="submit"]').filter(':focus').val()
+
+        $.ajax({
+            url: form.attr('action') + clickedButtonValue,
+            type: 'GET',
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                allSlams(data,'#allPosts')
+                pageNav(data);
             },
             error: function (xhr) {
                 //errorCode(xhr.status)
@@ -248,6 +273,19 @@ function errorText(data, box) {
 
 function lastPage() {
     window.location.href = localStorage.getItem('previousReferrer')
+}
+
+function removeDuplicateURI(key, value) {
+    let currentURL = new URL(window.location.href);
+    let queryParams = new URLSearchParams(currentURL.search);
+    queryParams.delete(key);
+    queryParams.append(key, value);
+    let newURL = `${currentURL.pathname}?${queryParams.toString()}`;
+    return newURL;
+}
+
+function pageURL(key) {
+    return removeDuplicateURI('page', key ?? 1);
 }
 
 function htmlspecialchars(str) {
@@ -339,6 +377,85 @@ function allSlams(data,appendTo) {
         $('<small>').attr({
             class: 'd-block mb-0 opacity-75'
         }).text(htmlspecialchars(post.name)).appendTo(div3)
+    }
+}
+
+function pageNav(data) {
+    $('#pageNavForm').empty();
+
+    if(data.posts.length > 0) {
+        let nav = $('<nav>').attr({
+            class: 'd-flex justify-content-center',
+            'aria-label': 'Standard pagination example'
+        }).appendTo('#pageNavForm');
+
+        let ul = $('<ul>').attr({
+            class: 'pagination'
+        }).appendTo(nav)
+
+        let liBack = $('<li>').attr({
+            class: 'page-item'
+        }).appendTo(ul)
+
+        let buttonBack = $('<button>').attr({
+            class: 'page-link',
+            type: 'submit',
+            value: data.pages.back,
+            'aria-label': 'Previous'
+        }).appendTo(liBack)
+
+        $('<span>').attr({
+            'aria-hidden': true,
+            class: 'text-dark fs-5'
+        }).text('«').appendTo(buttonBack)
+
+        for(let i = 0; i < Math.min(data.pages.last, 3); i++) {
+            let liBetween = $('<li>').attr({
+                class: 'page-item'
+            }).appendTo(ul)
+
+            $('<button>').attr({
+                class: 'page-link text-dark fs-5',
+                type: 'submit',
+                value: i + 1
+            }).text(i + 1).appendTo(liBetween)
+        }
+
+        if(data.pages.last > 3) {
+            let liDots = $('<li>').attr({
+                class: 'page-item'
+            }).appendTo(ul)
+
+            $('<button>').attr({
+                class: 'page-link text-dark fs-5'
+            }).text('...').appendTo(liDots)
+
+            let liLast = $('<li>').attr({
+                class: 'page-item'
+            }).appendTo(ul)
+
+            $('<button>').attr({
+                class: 'page-link text-dark fs-5',
+                type: 'submit',
+                value: data.pages.last
+            }).text(data.pages.last).appendTo(liLast)
+        }
+
+        let liNext = $('<li>').attr({
+            class: 'page-item'
+        }).appendTo(ul)
+
+        let buttonNext = $('<button>').attr({
+            class: 'page-link',
+            type: 'submit',
+            value: data.pages.next,
+            'aria-label': 'Next'
+        }).appendTo(liNext)
+
+        $('<span>').attr({
+            'aria-hidden': true,
+            class: 'text-dark fs-5'
+        }).text('»').appendTo(buttonNext)
     }
 }
 

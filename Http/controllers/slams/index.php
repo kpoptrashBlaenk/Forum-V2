@@ -3,7 +3,7 @@
 use Core\App;
 use Core\Database;
 
-$page = $_POST['page'] ?? 1;
+$page = $_GET['page'] ?? 1;
 
 $db = App::resolve(Database::class);
 
@@ -28,7 +28,9 @@ if (isset($_GET['search'])) {
     $params['search'] = '%' . $_GET['search'] . '%';
 }
 
-$sort_by = $_GET['sort_by'] ?? 'new';
+isset($_GET['sort_by']) ? $_SESSION['sort_by'] = $_GET['sort_by'] : false;
+
+$sort_by = $_SESSION['sort_by'] ?? 'new';
 
 switch ($sort_by) {
     case 'new':
@@ -59,7 +61,7 @@ $limit = 5;
 
 $lastPage = ceil(count($db->query($query, $params)->get()) / $limit);
 
-$postsLength = $page - 1;
+$postsLength = ($page - 1) * $limit;
 
 $query .= " limit {$limit} offset {$postsLength}";
 
@@ -72,7 +74,7 @@ $pages = [
 ];
 
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    echo json_encode(['error' => false, 'success' => true, 'posts' => $posts, 'pages' => $pages], JSON_THROW_ON_ERROR);
+    echo json_encode(['error' => false, 'success' => true, 'posts' => $posts, 'pages' => $pages, 'query' => $query], JSON_THROW_ON_ERROR);
 } else {
     view('slams/index.view.php', [
         'posts' => $posts,
