@@ -182,6 +182,31 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
 
+    //EDIT SLAM
+    $(document).on('submit', '#editSlam', function (event) {
+        event.preventDefault();
+
+        const form = $(this);
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.errors) {
+                    errorText(data, '#error-box');
+                } else {
+                    lastPage()
+                }
+            },
+            error: function (xhr) {
+                errorCode(xhr.status)
+            }
+        })
+    })
+
+
     //SORT
     $('#sort_by').on('change', function() {
         $('#slamsForm').submit();
@@ -279,8 +304,7 @@ function removeDuplicateURI(key, value) {
     let queryParams = new URLSearchParams(currentURL.search);
     queryParams.delete(key);
     queryParams.append(key, value);
-    let newURL = `${currentURL.pathname}?${queryParams.toString()}`;
-    return newURL;
+    return `${currentURL.pathname}?${queryParams.toString()}`;
 }
 
 function pageURL(key) {
@@ -323,60 +347,67 @@ function postFormat(value) {
     return value;
 }
 
-function allSlams(data,appendTo) {
-    $(appendTo).empty();
+function allSlams(data, appendTo) {
+    const container = $(appendTo).empty();
 
-    for(const post of data.posts) {
-
-        let a = $('<a>').attr({
+    data.posts.forEach(post => {
+        const a = $('<a>', {
             href: '/slam?id=' + post.id,
             class: 'list-group-item list-group-item-action d-flex gap-3 py-3'
-        }).appendTo(appendTo);
+        }).appendTo(container);
 
-        $('<img>').attr({
+        $('<img>', {
             src: '../resources/' + post.image_url,
             alt: post.name,
             width: 32,
             height: 32,
-            class: 'class="rounded-circle flex-shrink-0'
+            class: 'rounded-circle flex-shrink-0'
         }).appendTo(a);
 
-        let div1 = $('<div>').attr({
+        const div1 = $('<div>', {
             class: 'flex-grow-1 container'
         }).appendTo(a);
 
-        $('<h6>').attr({
-            class: 'mb-0 overflow-break ellipsis-1'
-        }).text(htmlspecialchars(post.title)).appendTo(div1);
+        // Title and content
+        $('<h6>', {
+            class: 'mb-0 overflow-break ellipsis-1',
+            text: htmlspecialchars(post.title)
+        }).appendTo(div1);
 
-        $('<p>').attr({
-            class: 'mb-0 opacity-75 overflow-break ellipsis-3'
-        }).append(postFormat(post.content)).appendTo(div1);
+        $('<p>', {
+            class: 'mb-0 opacity-75 overflow-break ellipsis-3',
+            html: postFormat(post.content)
+        }).appendTo(div1);
 
-        let div2 = $('<div>').attr({
+        // Stats container
+        const div2 = $('<div>', {
             class: 'd-flex justify-content-start mt-2'
-        }).appendTo(div1)
+        }).appendTo(div1);
 
-        $('<p>').attr({
-            class: 'mb-0 text-danger'
-        }).text('Likes: ' + post.num_likes).appendTo(div2);
+        $('<p>', {
+            class: 'mb-0 text-danger',
+            text: 'Likes: ' + post.num_likes
+        }).appendTo(div2);
 
-        $('<p>').attr({
-            class: 'mb-0 mx-3 text-tertiary'
-        }).text('Comments: ' + post.num_comments).appendTo(div2);
+        $('<p>', {
+            class: 'mb-0 mx-3 text-tertiary',
+            text: 'Comments: ' + post.num_comments
+        }).appendTo(div2);
 
-        let div3 = $('<div>').attr({
+        const div3 = $('<div>', {
             class: 'ms-auto text-end meta-container'
-        }).appendTo(a)
+        }).appendTo(a);
 
-        $('<small>').attr({
-            class: 'opacity-50 text-nowrap'
-        }).text(post.date).appendTo(div3)
+        $('<small>', {
+            class: 'opacity-50 text-nowrap',
+            text: post.date
+        }).appendTo(div3);
 
-        $('<small>').attr({
-            class: 'd-block mb-0 opacity-75'
-        }).text(htmlspecialchars(post.name)).appendTo(div3)
-    }
+        $('<small>', {
+            class: 'd-block mb-0 opacity-75',
+            text: htmlspecialchars(post.name)
+        }).appendTo(div3);
+    });
 }
 
 function pageNav(data) {

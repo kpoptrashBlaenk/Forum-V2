@@ -8,8 +8,6 @@ $db = App::resolve(Database::class);
 
 $categories = $db->query('SELECT * FROM category')->get();
 
-
-
 $post = $db->query('select posts.*, users.username, category.name
                      from posts
                      join users on posts.user_id = users.user_id

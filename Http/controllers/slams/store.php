@@ -21,7 +21,3 @@ $db->query('INSERT INTO posts(user_id, title, category_id, content, date) VALUES
 ]);
 
 echo json_encode(['success' => true, 'message' => 'Slam created successfully', 'thisSlam' => "/slam?id={$db->lastInsertedId()}"], JSON_THROW_ON_ERROR);
-
-//redirect("/slam?id={$db->lastInsertedId()}");
-
-//exit();

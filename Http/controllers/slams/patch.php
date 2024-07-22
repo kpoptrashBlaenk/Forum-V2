@@ -25,6 +25,4 @@ $db->query('update posts SET title = :title, category_id = :category_id, content
     'content' => $_POST['content']
 ]);
 
-redirect("/slam?id={$_POST['post_id']}");
-
-exit();
+echo json_encode(['success' => true, 'message' => 'Slam patched successfully'], JSON_THROW_ON_ERROR);
