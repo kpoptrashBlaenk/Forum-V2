@@ -7,7 +7,7 @@ require basePath('views/partials/header.php');
     <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
         <div class="list-group w-100">
 
-            <form id="slamsForm" action="/slams?page=1" method="POST">
+            <form id="slamsForm" method="POST">
                 <div class="mb-4 border border-secondary">
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Search posts..." aria-label="Search"

@@ -1,4 +1,4 @@
-<form id="pageNavForm" method="POST" action="/slams?page=">
+<form id="pageNavForm" method="POST">
     <?php if (count($posts) !== 0) : ?>
         <nav aria-label="Standard pagination example" class="d-flex justify-content-center">
             <ul class="pagination">

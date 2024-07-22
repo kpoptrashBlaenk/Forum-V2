@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const form = $(this);
 
         $.ajax({
-            url: form.attr('action'),
+            url: window.location.href,
             type: 'GET',
             data: form.serialize(),
             dataType: 'json',
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const clickedButtonValue = form.find('button[type="submit"]').filter(':focus').val()
 
         $.ajax({
-            url: form.attr('action') + clickedButtonValue,
+            url: pageURL(clickedButtonValue),
             type: 'GET',
             data: form.serialize(),
             dataType: 'json',
@@ -226,8 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 pageNav(data);
             },
             error: function (xhr) {
-                //errorCode(xhr.status)
-                console.log('error')
+                errorCode(xhr.status)
             }
         })
     })
