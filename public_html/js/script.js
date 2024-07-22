@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+
     //LIKE & DISLIKE
     const likeButton = $('#likePostButton');
 
