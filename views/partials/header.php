@@ -30,7 +30,7 @@
                             <input type="hidden" name="old_uri" value="<?= $_SERVER['REQUEST_URI'] ?>"/>
                             <button type="submit" class="btn btn-outline-light">Logout</button>
                         </form>
-                        <a href="/profile?user=<?= $_SESSION['user']['username'] ?>&page=1" class="nav-link px-2 text-white"><?= $_SESSION['user']['username'] ?></a>
+                        <a href="/profile?user=<?= $_SESSION['user']['username'] ?>" class="nav-link px-2 text-white"><?= $_SESSION['user']['username'] ?></a>
                     </div>
                 <?php else : ?>
                     <button type="button" class="btn btn-outline-light me-2"><a href="/session" class="nav-link">Login</a></button>
@@ -74,7 +74,7 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-item d-flex gap-2 align-items-center fw-bolder" href="/slams?page=1">
+                <a class="dropdown-item d-flex gap-2 align-items-center fw-bolder" href="/slams">
                     <div></div>
                     All
                 </a>

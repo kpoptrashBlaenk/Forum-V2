@@ -3,3 +3,4 @@ config.php
 tmp
 derby.log
 debug.php
+notes.txt

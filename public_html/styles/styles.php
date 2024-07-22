@@ -36,15 +36,4 @@
         return window.location.pathname;
     }
 
-    //sort by for /slams
-    document.addEventListener('DOMContentLoaded', function () {
-        const sortBySelect = document.getElementById('sort_by');
-
-        if (sortBySelect) {
-            sortBySelect.addEventListener('change', function () {
-                document.getElementById("slamsForm").submit();
-            });
-        }
-    });
-
 </script>

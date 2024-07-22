@@ -3,17 +3,15 @@
 use Core\App;
 use Core\Database;
 
-if (!isset($_GET['page'])) {
-    redirect(pageURL(1));
-}
+$page = $_POST['page'] ?? 1;
 
 $db = App::resolve(Database::class);
 
-$query = 'select posts.*, users.username, category.image_url, category.name, 
+$query = 'select posts.*, users.username, category.image_url, category.name,
                         (select count(*) from likes where likes.post_id = posts.id) as num_likes,
                         (select count(*) from comments where comments.post_id = posts.id) as num_comments
                         from posts
-                        join users on posts.user_id = users.user_id 
+                        join users on posts.user_id = users.user_id
                         join category on posts.category_id = category.id';
 
 $params = [];
@@ -59,22 +57,26 @@ if (!empty($orderBy)) {
 
 $limit = 5;
 
-$lastPage = ceil(count($db->query($query, $params)->get())/$limit);
+$lastPage = ceil(count($db->query($query, $params)->get()) / $limit);
 
-$postsLength = (isset($_GET['page'])) ? ((int)$_GET['page'] - 1) * $limit : 0;
+$postsLength = $page - 1;
 
 $query .= " limit {$limit} offset {$postsLength}";
 
 $posts = $db->query($query, $params)->get();
 
 $pages = [
-    'back' => (max((int)$_GET['page'] - 1,1)),
-    'next' => min((int)$_GET['page'] + 1,$lastPage),
+    'back' => (max((int)$page - 1, 1)),
+    'next' => min((int)$page + 1, $lastPage),
     'last' => $lastPage
 ];
 
-view('slams/index.view.php', [
-    'posts' => $posts,
-    'sort_by' => $sort_by,
-    'pages' => $pages
-]);
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    echo json_encode(['error' => false, 'success' => true, 'posts' => $posts, 'pages' => $pages], JSON_THROW_ON_ERROR);
+} else {
+    view('slams/index.view.php', [
+        'posts' => $posts,
+        'sort_by' => $sort_by,
+        'pages' => $pages
+    ]);
+}
