@@ -2,16 +2,16 @@
 
 switch($_SERVER['HTTP_HOST']) {
 
-    case 'fbaggiokostportfolio.000webhostapp.com':
+    case 'hidden':
         return [
             'Database' => [
-                'host' => 'localhost',
+                'host' => 'hidden',
                 'port' => 3306,
-                'dbname' => 'id21834925_forumdb',
+                'dbname' => 'hidden',
                 'charset' => 'utf8mb4',
             ],
-            'username' => 'id21834925_slam2325',
-            'password' => 'P4$$w0rd'
+            'username' => 'hidden',
+            'password' => 'hidden'
             ];
         break;
 

@@ -20,7 +20,7 @@ spl_autoload_register(static function ($class) {
 
 require basePath('Bootstrap.php');
 
-$router = new \Core\Router();
+$router = new Core\Router();
 
 $routes = require basePath('routes.php');
 
